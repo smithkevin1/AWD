@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar 
+    xmlns="http://relaxng.org/ns/structure/1.0"
+    xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+    
+    <define name="DOC">
+        <element name="DOC">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Document) contains a single schema-conformant document, combining a single docHeader with one or more members of the model.resourceLike class. Multiple DOC elements may be combined to form a docCorpus element.</a:documentation>
+            <group>
+                <ref name="docHeader"/>
+                <oneOrMore>
+                    <ref name="model.resourceLike"/>
+                </oneOrMore>
+            </group>
+            <ref name="att.global.attributes"/>
+            <ref name="att.typed.attributes"/>
+            <empty/>
+        </element>
+    </define>
+    
+    <start>
+        <choice>
+            <ref name="DOC"/>
+        </choice>
+    </start>
+</grammar>
