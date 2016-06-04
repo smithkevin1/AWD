@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="development_schmea.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<DOC type="abstract">
+    <docHeader>
+        <note>fuck yeah</note>
+        <docDesc>
+            <titleStmt>
+                <title>Test_doc1</title>
+                <author ref="#0000">Author Name<note>this is a note, which is allowed here because of the addition of the global elements</note></author>
+            </titleStmt>
+            <peerReview>
+                <reviewer ref="#0001">Reviewer_name</reviewer>
+            </peerReview>
+        </docDesc>
+    </docHeader>
+    <text>
+        <body>
+            <note>this is a note</note> This is text. <note>aother note</note><note>and another!</note>and now text. Wow, this is really shaping up!!
+        </body>
+    </text>
+</DOC>
