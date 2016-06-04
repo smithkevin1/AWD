@@ -113,18 +113,22 @@
             <empty/>
         </element>
     </define>
-    
+
     <define name="reflStmt">
         <element name="reflStmt">
-            <a:documentation> This is a placeholder element for pertinent framing and contextual information.</a:documentation>
+            <a:documentation> This is a placeholder element for pertinent framing and contextual
+                information.</a:documentation>
+            <choice>
+                <ref name="macro.paraContent"/>
+                <ref name="macro.reflContent"/>
+            </choice>
             <ref name="att.global.attributes"/>
             <ref name="att.naming.attributes"/>
-            <ref name="macro.paraContent"/>
             <empty/>
         </element>
     </define>
-    
-    
+
+
     <!-- END HEADER -->
 
     <!-- global and canonical attributes here -->
@@ -300,6 +304,16 @@
         </zeroOrMore>
     </define>
 
+    <define name="macro.reflContent">
+        <!-- This content model will be used to add child elements to the reflStmt element -->
+        <zeroOrMore>
+            <choice>
+                <text/>
+
+            </choice>
+        </zeroOrMore>
+    </define>
+
 
     <define name="macro.phraseSeq">
         <zeroOrMore>
@@ -421,9 +435,8 @@
     </define>
     <define name="body">
         <element name="body">
-            <a:documentation>(text
-                body) contains the whole body of a single unitary text, excluding any front or back
-                matter.</a:documentation>
+            <a:documentation>(text body) contains the whole body of a single unitary text, excluding
+                any front or back matter.</a:documentation>
             <group>
                 <interleave>
                     <zeroOrMore>
