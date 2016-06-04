@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="17.0">
+    <meta>
+        <filters directoryPatterns="" filePatterns="" positiveFilePatterns="" showHiddenFiles="false"/>
+        <options/>
+    </meta>
+    <projectTree name="AWD_schemas.xpr">
+        <file name="../repos/AWD/test_schemas/development_schmea.rng"/>
+        <file name="../repos/AWD/test_schemas/tei_bare.rng"/>
+        <file name="../repos/AWD/test_schemas/tei_jtei.rng"/>
+        <file name="../repos/AWD/test_schemas/tei_lite.rng"/>
+        <file name="../repos/AWD/useful_templates.xsl"/>
+    </projectTree>
+</project>
