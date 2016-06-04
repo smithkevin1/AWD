@@ -10,7 +10,6 @@
         <file name="tei_jtei.rng"/>
         <file name="tei_lite.rng"/>
         <file name="test_doc1.xml"/>
-        <file name="untitled.xml"/>
         <file name="useful_templates.xsl"/>
     </projectTree>
 </project>
