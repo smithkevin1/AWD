@@ -62,7 +62,7 @@
                 Description]</a:documentation>
             <group>
                 <oneOrMore>
-                    <ref name="title"/>
+                    <ref name="docTitle"/>
                 </oneOrMore>
                 <zeroOrMore>
                     <ref name="model.respLike"/>
@@ -75,7 +75,7 @@
 
     <define name="model.respLike">
         <choice>
-            <ref name="author"/>
+            <ref name="docAuthor"/>
             <ref name="reviewer"/>
         </choice>
     </define>
@@ -87,8 +87,8 @@
         </element>
     </define>
 
-    <define name="author">
-        <element name="author">
+    <define name="docAuthor">
+        <element name="docAuthor">
             <a:documentation>in a bibliographic reference, contains the name(s) of an author,
                 personal or corporate, of a work; for example in the same form as that provided by a
                 recognized bibliographic name authority. [3.11.2.2. Titles, Authors, and Editors
@@ -134,9 +134,43 @@
     <!-- global and canonical attributes here -->
     <define name="att.global.attributes">
         <ref name="att.global.rendition.attributes"/>
+        <ref name="att.global.linking.attributes"/>
         <ref name="att.global.responsibility.attributes"/>
         <ref name="att.global.attribute.xmlid"/>
         <ref name="att.global.attribute.n"/>
+    </define>
+    <define name="att.global.linking.attributes">
+        <ref name="att.global.linking.attribute.corresp"/>
+        <ref name="att.global.linking.attribute.next"/>
+        <ref name="att.global.linking.attribute.prev"/>
+    </define>
+    <define name="att.global.linking.attribute.corresp">
+        <optional>
+            <attribute name="corresp">
+                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(corresponds) points to elements that correspond to the current element in some way.</a:documentation>
+                <list>
+                    <oneOrMore>
+                        <data type="anyURI"/>
+                    </oneOrMore>
+                </list>
+            </attribute>
+        </optional>
+    </define>
+    <define name="att.global.linking.attribute.next">
+        <optional>
+            <attribute name="next">
+                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to the next element of a virtual aggregate of which the current element is part.</a:documentation>
+                <data type="anyURI"/>
+            </attribute>
+        </optional>
+    </define>
+    <define name="att.global.linking.attribute.prev">
+        <optional>
+            <attribute name="prev">
+                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(previous) points to the previous element of a virtual aggregate of which the current element is part.</a:documentation>
+                <data type="anyURI"/>
+            </attribute>
+        </optional>
     </define>
     <define name="att.global.attribute.xmlid">
         <optional>
@@ -355,8 +389,8 @@
     </define>
     <!-- END GLOBAL ELEMENT DEFINITIONS -->
 
-    <define name="title">
-        <element name="title">
+    <define name="docTitle">
+        <element name="docTitle">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains
                 a title for any kind of work. [3.11.2.2. Titles, Authors, and Editors 2.2.1. The
                 Title Statement 2.2.5. The Series Statement]</a:documentation>

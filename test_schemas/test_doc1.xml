@@ -5,8 +5,8 @@
         <note>fuck yeah</note>
         <docDesc>
             <titleStmt>
-                <title>Test_doc1</title>
-                <author ref="#0000">Author Name<note>this is a note, which is allowed here because of the addition of the global elements</note></author>
+                <docTitle>Test_doc1</docTitle>
+                <docAuthor ref="#0000">Author Name<note>this is a note, which is allowed here because of the addition of the global elements</note></docAuthor>
             </titleStmt>
             <peerReview>
                 <reviewer ref="#0001">Reviewer_name</reviewer>
@@ -17,5 +17,10 @@
         <body>
             <note>this is a note</note> This is text. <note>aother note</note><note>and another!</note>and now text. Wow, this is really shaping up!!
         </body>
+       
+        <listBibl> <!-- these elements are here to remind me to add bibl section to the schema -->
+            <bibl id="1"><author></author><title></title><publisher></publisher><pubPlace></pubPlace><editor></editor><date></date><pp></pp><</bibl>
+        </listBibl>
+        
     </text>
 </DOC>
