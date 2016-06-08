@@ -3,133 +3,120 @@
     xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
     datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
 
-    <define name="DOC">
-        <element name="DOC">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-                >(Document) contains a single schema-conformant document, combining a single
-                docHeader with one or more members of the model.resourceLike class. Multiple DOC
-                elements may be combined to form a docCorpus element.</a:documentation>
-            <group>
-                <ref name="docHeader"/>
-                <oneOrMore>
-                    <ref name="model.resourceLike"/>
-                </oneOrMore>
-            </group>
-            <ref name="att.global.attributes"/>
-            <ref name="att.typed.attributes"/>
-            <empty/>
-        </element>
+
+    <!-- MACRO DEFINITIONS (do we really need these?) -->
+    <define name="macro.paraContent">
+        <zeroOrMore>
+            <choice>
+                <text/>
+                <ref name="model.phrase"/>
+                <ref name="model.inter"/>
+                <ref name="model.global"/>
+            </choice>
+        </zeroOrMore>
     </define>
 
-    <!-- HEADER STUFF -->
-    <define name="docHeader">
-        <element name="docHeader">
-            <group>
-                <interleave>
-                    <ref name="docDesc"/>
-                    <zeroOrMore>
-                        <ref name="model.global"/>
-                    </zeroOrMore>
-                </interleave>
-            </group>
-            <ref name="att.global.attributes"/>
-            <ref name="att.typed.attributes"/>
-            <empty/>
-        </element>
+    <define name="macro.reflContent">
+        <!-- I think I can change this to a model.reflContent -->
+        <!-- This content model will be used to add child elements to the reflStmt element -->
+        <zeroOrMore>
+            <choice>
+                <text/>
+                <ref name="macro.paraContent"/>
+            </choice>
+        </zeroOrMore>
     </define>
 
-    <define name="docDesc">
-        <element name="docDesc">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(file
-                description) contains a full bibliographic description of an electronic file. [2.2.
-                The File Description 2.1.1. The TEI Header and Its Components]</a:documentation>
-            <group>
-                <ref name="titleStmt"/>
-                <zeroOrMore>
-                    <ref name="peerReview"/>
-                </zeroOrMore>
-            </group>
-            <ref name="att.global.attributes"/>
-            <empty/>
-        </element>
-    </define>
+    <!-- putting models and attendant elements here here for editing purposes: model.phrase and optional model.inter -->
 
-    <define name="titleStmt">
-        <element name="titleStmt">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(title
-                statement) groups information about the title of a work and those responsible for
-                its content. [2.2.1. The Title Statement 2.2. The File
-                Description]</a:documentation>
-            <group>
-                <oneOrMore>
-                    <ref name="docTitle"/>
-                </oneOrMore>
-                <zeroOrMore>
-                    <ref name="model.respLike"/>
-                </zeroOrMore>
-            </group>
-            <ref name="att.global.attributes"/>
-            <empty/>
-        </element>
-    </define>
-
-    <define name="model.respLike">
+    <define name="model.phrase">
         <choice>
-            <ref name="docAuthor"/>
-            <ref name="reviewer"/>
+            <ref name="model.segLike"/>
+            <ref name="model.ptrLike"/>
         </choice>
     </define>
-    <define name="peerReview">
-        <element name="peerReview">
-            <zeroOrMore>
-                <ref name="model.respLike"/>
-            </zeroOrMore>
-        </element>
+    <define name="model.inter">
+        <choice>
+            <ref name="model.biblLike"/>
+            <ref name="model.qLike"/>
+        </choice>
+    </define>
+    <define name="model.segLike">
+        <choice>
+            <ref name="seg"/>
+        </choice>
+    </define>
+    <define name="model.ptrLike">
+        <choice>
+            <ref name="ptr"/>
+            <ref name="ref"/>
+        </choice>
+    </define>
+    <define name="model.biblLike">
+        <choice>
+            <ref name="bibl"/>
+            <ref name="listBibl"/>
+        </choice>
+    </define>
+    <define name="model.qLike">
+        <choice>
+            <ref name="cit"/>
+            <ref name="q"/>
+        </choice>
     </define>
 
-    <define name="docAuthor">
-        <element name="docAuthor">
-            <a:documentation>in a bibliographic reference, contains the name(s) of an author,
-                personal or corporate, of a work; for example in the same form as that provided by a
-                recognized bibliographic name authority. [3.11.2.2. Titles, Authors, and Editors
-                2.2.1. The Title Statement]</a:documentation>
-            <ref name="macro.phraseSeq"/>
+    <define name="seg">
+        <zeroOrMore>
+            <ref name="macro.paraContent"/>
+        </zeroOrMore>
+    </define>
+    <define name="bibl">
+        <choice>
+            <text/>
             <ref name="att.global.attributes"/>
-            <ref name="att.naming.attributes"/>
-            <empty/>
-        </element>
+            <ref name="att.typed.attributes"/>
+        </choice>
     </define>
-
-    <define name="reviewer">
-        <element name="reviewer">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">in a
-                bibliographic reference, contains the name(s) of an author, personal or corporate,
-                of a work; for example in the same form as that provided by a recognized
-                bibliographic name authority. [3.11.2.2. Titles, Authors, and Editors 2.2.1. The
-                Title Statement]</a:documentation>
-            <ref name="macro.phraseSeq"/>
+    <define name="listBibl">
+        <choice>
+            <oneOrMore>
+                <choice>
+                    <ref name="model.biblLike"/>
+                    <ref name="model.milestoneLike"/>
+                </choice>
+            </oneOrMore>
             <ref name="att.global.attributes"/>
-            <ref name="att.naming.attributes"/>
-            <empty/>
-        </element>
+            <ref name="att.typed.attributes"/>
+        </choice>
+    </define>
+    <define name="cit">
+        <choice>
+            <ref name="model.qLike"/>
+            <ref name="model.biblLike"/>
+        </choice>
+        <empty/>
+        <ref name="att.global.attributes"/>
+        <ref name="att.typed.attributes"/>
+    </define>
+    <define name="q">
+        <text/>
+        <ref name="att.global.attributes"/>
+        <ref name="att.typed.attributes"/>
     </define>
 
-    <define name="reflStmt">
-        <element name="reflStmt">
-            <a:documentation> This is a placeholder element for pertinent framing and contextual
-                information.</a:documentation>
+
+
+    <define name="macro.phraseSeq">
+        <zeroOrMore>
             <choice>
-                <ref name="macro.paraContent"/>
-                <ref name="macro.reflContent"/>
+                <text/>
+                <ref name="model.phrase"/>
+                <ref name="model.global"/>
             </choice>
-            <ref name="att.global.attributes"/>
-            <ref name="att.naming.attributes"/>
-            <empty/>
-        </element>
+        </zeroOrMore>
     </define>
+    <!-- END MACROS DEFINITIONS -->
 
-
-    <!-- END HEADER -->
 
     <!-- global and canonical attributes here -->
     <define name="att.global.attributes">
@@ -147,7 +134,9 @@
     <define name="att.global.linking.attribute.corresp">
         <optional>
             <attribute name="corresp">
-                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(corresponds) points to elements that correspond to the current element in some way.</a:documentation>
+                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                    >(corresponds) points to elements that correspond to the current element in some
+                    way.</a:documentation>
                 <list>
                     <oneOrMore>
                         <data type="anyURI"/>
@@ -159,7 +148,9 @@
     <define name="att.global.linking.attribute.next">
         <optional>
             <attribute name="next">
-                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to the next element of a virtual aggregate of which the current element is part.</a:documentation>
+                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                    >points to the next element of a virtual aggregate of which the current element
+                    is part.</a:documentation>
                 <data type="anyURI"/>
             </attribute>
         </optional>
@@ -167,7 +158,9 @@
     <define name="att.global.linking.attribute.prev">
         <optional>
             <attribute name="prev">
-                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(previous) points to the previous element of a virtual aggregate of which the current element is part.</a:documentation>
+                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                    >(previous) points to the previous element of a virtual aggregate of which the
+                    current element is part.</a:documentation>
                 <data type="anyURI"/>
             </attribute>
         </optional>
@@ -320,51 +313,7 @@
     </define>
     <!-- END TYPE/SUBTYPE -->
 
-
-
     <!-- CONTENT MODELS -->
-    <define name="macro.paraContent">
-        <zeroOrMore>
-            <choice>
-                <text/>
-
-                <!--<ref name="model.phrase"/>
-                <ref name="model.inter"/>
-                <ref name="model.global"/>
-                
-                <ref name="model.lLike"/>-->
-
-            </choice>
-        </zeroOrMore>
-    </define>
-
-    <define name="macro.reflContent">
-        <!-- This content model will be used to add child elements to the reflStmt element -->
-        <zeroOrMore>
-            <choice>
-                <text/>
-
-            </choice>
-        </zeroOrMore>
-    </define>
-
-
-    <define name="macro.phraseSeq">
-        <zeroOrMore>
-            <choice>
-                <text/>
-                <!--<ref name="model.phrase"/>-->
-                <ref name="model.global"/>
-            </choice>
-        </zeroOrMore>
-    </define>
-    <!--END CONTENT MODELS-->
-
-
-
-
-
-    <!-- BEGIN GLOBAL ELEMENT DEFINITIONS -->
     <define name="model.global">
         <choice>
             <ref name="model.milestoneLike"/>
@@ -377,6 +326,28 @@
     <define name="model.noteLike">
         <ref name="note"/>
     </define>
+
+    <define name="model.resourceLike">
+        <choice>
+            <ref name="text"/>
+        </choice>
+    </define>
+    <define name="model.respLike">
+        <choice>
+            <ref name="docAuthor"/>
+            <ref name="reviewer"/>
+        </choice>
+    </define>
+    <define name="peerReview">
+        <element name="peerReview">
+            <zeroOrMore>
+                <ref name="model.respLike"/>
+            </zeroOrMore>
+        </element>
+    </define>
+    <!-- END CONTENT MODELS -->
+
+    <!-- ELEMENT DEFINITIONS -->
     <define name="note">
         <element name="note">
             <a:documentation>contains a note made on the text intended to provide additional
@@ -387,8 +358,6 @@
             <text/>
         </element>
     </define>
-    <!-- END GLOBAL ELEMENT DEFINITIONS -->
-
     <define name="docTitle">
         <element name="docTitle">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains
@@ -413,12 +382,6 @@
         </element>
     </define>
 
-
-    <define name="model.resourceLike">
-        <choice>
-            <ref name="text"/>
-        </choice>
-    </define>
     <define name="text">
         <element name="text">
             <a:documentation>contains a single text of any kind, whether unitary or composite, for
@@ -467,6 +430,103 @@
             <empty/>
         </element>
     </define>
+
+
+    <!-- HEADER STUFF -->
+    <define name="docHeader">
+        <element name="docHeader">
+            <group>
+                <interleave>
+                    <ref name="docDesc"/>
+                    <zeroOrMore>
+                        <ref name="model.global"/>
+                    </zeroOrMore>
+                </interleave>
+            </group>
+            <ref name="att.global.attributes"/>
+            <ref name="att.typed.attributes"/>
+            <empty/>
+        </element>
+    </define>
+
+    <define name="docDesc">
+        <element name="docDesc">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(file
+                description) contains a full bibliographic description of an electronic file. [2.2.
+                The File Description 2.1.1. The TEI Header and Its Components]</a:documentation>
+            <group>
+                <ref name="titleStmt"/>
+                <zeroOrMore>
+                    <ref name="peerReview"/>
+                </zeroOrMore>
+            </group>
+            <ref name="att.global.attributes"/>
+            <empty/>
+        </element>
+    </define>
+
+    <define name="titleStmt">
+        <element name="titleStmt">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(title
+                statement) groups information about the title of a work and those responsible for
+                its content. [2.2.1. The Title Statement 2.2. The File
+                Description]</a:documentation>
+            <group>
+                <oneOrMore>
+                    <ref name="docTitle"/>
+                </oneOrMore>
+                <zeroOrMore>
+                    <ref name="model.respLike"/>
+                </zeroOrMore>
+            </group>
+            <ref name="att.global.attributes"/>
+            <empty/>
+        </element>
+    </define>
+
+    <define name="docAuthor">
+        <element name="docAuthor">
+            <a:documentation>in a bibliographic reference, contains the name(s) of an author,
+                personal or corporate, of a work; for example in the same form as that provided by a
+                recognized bibliographic name authority. [3.11.2.2. Titles, Authors, and Editors
+                2.2.1. The Title Statement]</a:documentation>
+            <ref name="macro.phraseSeq"/>
+            <ref name="att.global.attributes"/>
+            <ref name="att.naming.attributes"/>
+            <empty/>
+        </element>
+    </define>
+
+    <define name="reviewer">
+        <element name="reviewer">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">in a
+                bibliographic reference, contains the name(s) of an author, personal or corporate,
+                of a work; for example in the same form as that provided by a recognized
+                bibliographic name authority. [3.11.2.2. Titles, Authors, and Editors 2.2.1. The
+                Title Statement]</a:documentation>
+            <ref name="macro.phraseSeq"/>
+            <ref name="att.global.attributes"/>
+            <ref name="att.naming.attributes"/>
+            <empty/>
+        </element>
+    </define>
+
+    <define name="reflStmt">
+        <element name="reflStmt">
+            <a:documentation> This is a placeholder element for pertinent framing and contextual
+                information.</a:documentation>
+            <choice>
+                <ref name="macro.paraContent"/>
+                <ref name="macro.reflContent"/>
+            </choice>
+            <ref name="att.global.attributes"/>
+            <ref name="att.naming.attributes"/>
+            <empty/>
+        </element>
+    </define>
+
+
+    <!-- END HEADER -->
     <define name="body">
         <element name="body">
             <a:documentation>(text body) contains the whole body of a single unitary text, excluding
@@ -636,7 +696,23 @@
 
         </element>
     </define>
-
+    <define name="DOC">
+        <element name="DOC">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                >(Document) contains a single schema-conformant document, combining a single
+                docHeader with one or more members of the model.resourceLike class. Multiple DOC
+                elements may be combined to form a docCorpus element.</a:documentation>
+            <group>
+                <ref name="docHeader"/>
+                <oneOrMore>
+                    <ref name="model.resourceLike"/>
+                </oneOrMore>
+            </group>
+            <ref name="att.global.attributes"/>
+            <ref name="att.typed.attributes"/>
+            <empty/>
+        </element>
+    </define>
 
 
     <start>
