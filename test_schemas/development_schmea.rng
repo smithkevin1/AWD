@@ -632,7 +632,6 @@
                 
             </group>-->
             <ref name="att.global.attributes"/>
-            <!--changed to text from <empty/> to test schema-->
             <empty/>
 
         </element>
