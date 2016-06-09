@@ -15,13 +15,22 @@
     </docHeader>
     <text>
         <body>
-            <note>this is a note <cit></cit></note> This is <ref target="#smitty">text</ref>. <note>aother note</note><note>and another!</note>and now text. Wow, this is <q xml:id="smitty">really shaping up!!</q>
+            <div type="chapter">
+                <div type="section">
+                    <p>Text goes here for structural 
+                        <cit><q>This is a quote with a bibliographic citation attached.</q><bibl>(Smith, 2016)</bibl></cit>purposesssssssssssssss.</p>
+                    <p></p>
+                </div>
+                <div type="section">
+                    <p>Second section.</p>
+                    <div type="subsection">
+                        <p>Infinite layers!</p>
+                    </div>
+                </div>
+            </div>
             
         </body>
-       
-        <listBibl> <!-- these elements are here to remind me to add bibl section to the schema -->
-            <bibl id="1">Smith, Kevin. "Negotiating Community Literacy." Computers and Composition 40 (June 2016): 110-124. Web.</bibl>
-        </listBibl>
+        
         
     </text>
 </DOC>
