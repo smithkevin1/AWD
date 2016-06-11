@@ -2,23 +2,30 @@
 <?xml-model href="development_schmea.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <DOC type="abstract">
     <docHeader>
-        <note>fuck yeah</note>
+        <note resp="#WM">fuck yeah</note>
         <docDesc>
             <titleStmt>
                 <docTitle>Test_doc1</docTitle>
-                <docAuthor ref="#0000">Author Name<note>this is a note, which is allowed here because of the addition of the global elements</note></docAuthor>
+                <docAuthor xml:id="WM">Author Name<note>this is a note, which is allowed here because of the addition of the global elements</note></docAuthor>              
             </titleStmt>
+            <reflStmt>
+                <p></p>
+            </reflStmt>
             <peerReview>
-                <reviewer ref="#0001">Reviewer_name</reviewer>
+                <reviewer xml:id="WW">Reviewer_name <note>optional note on reviewer name</note></reviewer>
+                
             </peerReview>
         </docDesc>
     </docHeader>
     <text>
+        <front>
+            <q type="epigraph" rend="italics centered">This is an epigraph which precedes the main body of the text.</q>
+        </front>
         <body>
             <div type="chapter">
                 <div type="section">
                     <p>Text goes here for structural 
-                        <cit><q>This is a quote with a bibliographic citation attached.</q><bibl>(Smith, 2016)</bibl></cit>purposesssssssssssssss.</p>
+                        <cit><q>This is a quote with a bibliographic citation attached.</q><bibl>(Smith, 2018)</bibl></cit>purposesssssssssssssss.</p>
                     <p></p>
                 </div>
                 <div type="section">
@@ -30,7 +37,10 @@
             </div>
             
         </body>
-        
-        
+        <back>
+            <listBibl>
+                <bibl>Smith, Kevin. "Designing XML in the Composition Classroom." Unpublished dissertation. May, 2018.</bibl>
+            </listBibl>
+        </back>       
     </text>
 </DOC>

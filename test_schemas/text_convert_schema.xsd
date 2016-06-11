@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+  <!-- MACRO DEFINITIONS (do we really need these?) -->
+  <xs:group name="macro.paraContent">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="model.phrase"/>
+        <xs:element ref="model.inter"/>
+        <xs:element ref="model.global"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:group>
+  <xs:group name="macro.reflContent">
+    <xs:sequence>
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="macro.paraContent"/>
+    </xs:sequence>
+  </xs:group>
+  <!-- putting models and attendant elements here here for editing purposes: model.phrase and optional model.inter -->
+  <xs:element name="model.phrase" abstract="true"/>
+  <xs:element name="model.inter" abstract="true" substitutionGroup="model.common"/>
+  <xs:element name="model.segLike" abstract="true" substitutionGroup="model.phrase">
+    <xs:complexType mixed="true">
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="macro.paraContent"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="model.ptrLike" abstract="true" substitutionGroup="model.phrase">
+    <xs:complexType mixed="true">
+      <xs:group ref="macro.paraContent"/>
+      <xs:attributeGroup ref="att.global.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="model.biblLike" abstract="true" substitutionGroup="model.inter"/>
+  <xs:element name="model.qLike" abstract="true" substitutionGroup="model.inter"/>
+  <xs:complexType name="macro.phraseSeq" mixed="true">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="model.phrase"/>
+      <xs:element ref="model.global"/>
+    </xs:choice>
+  </xs:complexType>
+  <!-- END MACROS DEFINITIONS -->
+  <!-- global and canonical attributes here -->
+  <xs:attributeGroup name="att.global.attributes">
+    <xs:attributeGroup ref="att.global.rendition.attributes"/>
+    <xs:attributeGroup ref="att.global.linking.attributes"/>
+    <xs:attributeGroup ref="att.global.responsibility.attributes"/>
+    <xs:attributeGroup ref="att.global.attribute.xmlid"/>
+    <xs:attributeGroup ref="att.global.attribute.n"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.linking.attributes">
+    <xs:attributeGroup ref="att.global.linking.attribute.corresp"/>
+    <xs:attributeGroup ref="att.global.linking.attribute.next"/>
+    <xs:attributeGroup ref="att.global.linking.attribute.prev"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.linking.attribute.corresp">
+    <xs:attribute name="corresp">
+      <xs:annotation>
+        <xs:documentation>(corresponds) points to elements that correspond to the current element in some
+                    way.</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction>
+          <xs:simpleType>
+            <xs:list itemType="xs:anyURI"/>
+          </xs:simpleType>
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.linking.attribute.next">
+    <xs:attribute name="next" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>points to the next element of a virtual aggregate of which the current element
+                    is part.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.linking.attribute.prev">
+    <xs:attribute name="prev" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>(previous) points to the previous element of a virtual aggregate of which the
+                    current element is part.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.attribute.xmlid">
+    <xs:attribute ref="xml:id"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.attribute.n">
+    <xs:attribute name="n" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>(number) gives a number (or other label) for an element, which is
+                    not necessarily unique within the document.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.rendition.attributes">
+    <xs:attributeGroup ref="att.global.rendition.attribute.rend"/>
+    <xs:attributeGroup ref="att.global.rendition.attribute.style"/>
+    <xs:attributeGroup ref="att.global.rendition.attribute.rendition"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.rendition.attribute.rend">
+    <xs:attribute name="rend">
+      <xs:annotation>
+        <xs:documentation>(rendition) indicates how the element in question was rendered or
+                    presented in the source text.</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction>
+          <xs:simpleType>
+            <xs:list>
+              <xs:simpleType>
+                <xs:restriction base="xs:token">
+                  <xs:pattern value="(\p{L}|\p{N}|\p{P}|\p{S})+"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:list>
+          </xs:simpleType>
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.rendition.attribute.style">
+    <xs:attribute name="style" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>contains an expression in some formal style definition language
+                    which defines the rendering or presentation used for this element in the source
+                    text</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.rendition.attribute.rendition">
+    <xs:attribute name="rendition">
+      <xs:annotation>
+        <xs:documentation>points to a description of the rendering or presentation used for
+                    this element in the source text.</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction>
+          <xs:simpleType>
+            <xs:list itemType="xs:anyURI"/>
+          </xs:simpleType>
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.responsibility.attributes">
+    <xs:attributeGroup ref="att.global.responsibility.attribute.cert"/>
+    <xs:attributeGroup ref="att.global.responsibility.attribute.resp"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.responsibility.attribute.cert">
+    <xs:attribute name="cert">
+      <xs:annotation>
+        <xs:documentation>(certainty) signifies the degree of certainty associated with the
+                    intervention or interpretation.</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:union memberTypes="xs:double">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:enumeration value="high">
+                <xs:annotation>
+                  <xs:documentation/>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="medium">
+                <xs:annotation>
+                  <xs:documentation/>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="low">
+                <xs:annotation>
+                  <xs:documentation/>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="unknown">
+                <xs:annotation>
+                  <xs:documentation/>
+                </xs:annotation>
+              </xs:enumeration>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:union>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.global.responsibility.attribute.resp">
+    <xs:attribute name="resp">
+      <xs:annotation>
+        <xs:documentation>(responsible party) indicates the agency responsible for the
+                    intervention or interpretation, for example an editor or
+                    transcriber.</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction>
+          <xs:simpleType>
+            <xs:list itemType="xs:anyURI"/>
+          </xs:simpleType>
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.naming.attributes">
+    <xs:attributeGroup ref="att.canonical.attributes"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.canonical.attributes">
+    <xs:attributeGroup ref="att.canonical.attribute.ref"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.canonical.attribute.ref">
+    <xs:attribute name="ref">
+      <xs:annotation>
+        <xs:documentation>(reference) provides an explicit means of locating a full definition or
+                    identity for the entity being named by means of one or more
+                    URIs.</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction>
+          <xs:simpleType>
+            <xs:list itemType="xs:anyURI"/>
+          </xs:simpleType>
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- END GLOBAL AND HIGH LEVEL ATTRIBUTE DEFINITIONS -->
+  <!-- TYPE AND SUBTYPE ATTRIBUTES -->
+  <xs:attributeGroup name="att.typed.attributes">
+    <xs:attributeGroup ref="att.typed.attribute.type"/>
+    <xs:attributeGroup ref="att.typed.attribute.subtype"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.typed.attribute.type">
+    <xs:attribute name="type">
+      <xs:annotation>
+        <xs:documentation>characterizes the element in some sense, using any convenient
+                    classification scheme or typology.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="att.typed.attribute.subtype">
+    <xs:attribute name="subtype">
+      <xs:annotation>
+        <xs:documentation>provides a sub-categorization of the element, if
+                    needed</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- END TYPE/SUBTYPE -->
+  <!-- CONTENT MODELS -->
+  <xs:element name="model.global" abstract="true">
+    <xs:complexType mixed="true">
+      <xs:attributeGroup ref="att.global.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="model.common" abstract="true"/>
+  <xs:element name="model.divLike" abstract="true">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.global"/>
+        <xs:choice minOccurs="0">
+          <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="model.divLike"/>
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.global"/>
+          </xs:sequence>
+          <xs:sequence>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element ref="model.common"/>
+              <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.global"/>
+            </xs:sequence>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+              <xs:element ref="model.divLike"/>
+              <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.global"/>
+            </xs:sequence>
+          </xs:sequence>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.typed.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="model.divPart" abstract="true" substitutionGroup="model.common">
+    <xs:complexType mixed="true">
+      <xs:group ref="macro.paraContent"/>
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.typed.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="model.pLike" abstract="true" substitutionGroup="model.divPart"/>
+  <xs:element name="model.noteLike" abstract="true" substitutionGroup="model.global"/>
+  <xs:element name="model.resourceLike" abstract="true">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.global"/>
+        <xs:element ref="body"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.global"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.typed.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="model.respLike" abstract="true">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="macro.phraseSeq">
+          <xs:attributeGroup ref="att.global.attributes"/>
+          <xs:attributeGroup ref="att.naming.attributes"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="peerReview">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.respLike"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <!-- END CONTENT MODELS -->
+  <!-- ELEMENT DEFINITIONS -->
+  <xs:element name="note" substitutionGroup="model.noteLike">
+    <xs:annotation>
+      <xs:documentation>contains a note made on the text intended to provide additional
+                information or comment upon the text</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="docTitle">
+    <xs:annotation>
+      <xs:documentation>contains
+                a title for any kind of work. [3.11.2.2. Titles, Authors, and Editors 2.2.1. The
+                Title Statement 2.2.5. The Series Statement]</xs:documentation>
+    </xs:annotation>
+    <xs:complexType mixed="true">
+      <xs:group ref="macro.paraContent"/>
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.canonical.attributes"/>
+      <xs:attributeGroup ref="att.typed.attribute.subtype"/>
+      <xs:attribute name="type">
+        <xs:annotation>
+          <xs:documentation>classifies the title according to some convenient typology. Sample values
+                        include: 1] main; 2] sub(subordinate) ; 3] alt(alternate) ; 4] short; 5]
+                        desc(descriptive) </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:pattern value="(\p{L}|\p{N}|\p{P}|\p{S})+"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="text" substitutionGroup="model.resourceLike">
+    <xs:annotation>
+      <xs:documentation>contains a single text of any kind, whether unitary or composite, for
+                example a poem or drama, a collection of essays, a novel, a dictionary, or a corpus
+                sample. </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!-- HEADER STUFF -->
+  <xs:element name="docHeader">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="docDesc"/>
+        <xs:element ref="model.global"/>
+      </xs:choice>
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.typed.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="docDesc">
+    <xs:annotation>
+      <xs:documentation>(file
+                description) contains a full bibliographic description of an electronic file. [2.2.
+                The File Description 2.1.1. The TEI Header and Its Components]</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="titleStmt"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="peerReview"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="att.global.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="titleStmt">
+    <xs:annotation>
+      <xs:documentation>(title
+                statement) groups information about the title of a work and those responsible for
+                its content. [2.2.1. The Title Statement 2.2. The File
+                Description]</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="docTitle"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.respLike"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="att.global.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="docAuthor" substitutionGroup="model.respLike">
+    <xs:annotation>
+      <xs:documentation>in a bibliographic reference, contains the name(s) of an author,
+                personal or corporate, of a work; for example in the same form as that provided by a
+                recognized bibliographic name authority. [3.11.2.2. Titles, Authors, and Editors
+                2.2.1. The Title Statement]</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reviewer" substitutionGroup="model.respLike">
+    <xs:annotation>
+      <xs:documentation>in a
+                bibliographic reference, contains the name(s) of an author, personal or corporate,
+                of a work; for example in the same form as that provided by a recognized
+                bibliographic name authority. [3.11.2.2. Titles, Authors, and Editors 2.2.1. The
+                Title Statement]</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reflStmt">
+    <xs:annotation>
+      <xs:documentation> This is a placeholder element for pertinent framing and contextual
+                information.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType mixed="true">
+      <xs:choice>
+        <xs:group ref="macro.paraContent"/>
+        <xs:group ref="macro.reflContent"/>
+      </xs:choice>
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.naming.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <!-- END HEADER -->
+  <xs:element name="seg" substitutionGroup="model.segLike"/>
+  <xs:element name="bibl" substitutionGroup="model.biblLike">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="model.ptrLike"/>
+        <xs:element ref="model.global"/>
+      </xs:choice>
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.typed.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="listBibl" substitutionGroup="model.biblLike">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.biblLike"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.typed.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cit" substitutionGroup="model.qLike">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="model.qLike"/>
+        <xs:element ref="model.biblLike"/>
+        <xs:element ref="model.ptrLike"/>
+      </xs:choice>
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.typed.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="q" substitutionGroup="model.qLike">
+    <xs:complexType mixed="true">
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.typed.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ref" substitutionGroup="model.ptrLike">
+    <xs:annotation>
+      <xs:documentation>(reference) defines a reference to another location, possibly modified
+                by additional text or comment</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="p" substitutionGroup="model.pLike"/>
+  <xs:element name="div" substitutionGroup="model.divLike">
+    <xs:annotation>
+      <xs:documentation>(text
+                division) contains a subdivision of the front, body, or back of a text. [4.1.
+                Divisions of the Body]</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="body">
+    <xs:annotation>
+      <xs:documentation>(text body) contains the whole body of a single unitary text, excluding
+                any front or back matter.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.global"/>
+        <xs:choice>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="model.divLike"/>
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.global"/>
+          </xs:sequence>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="model.common"/>
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="model.global"/>
+          </xs:sequence>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.typed.attributes"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DOC">
+    <xs:annotation>
+      <xs:documentation>(Document) contains a single schema-conformant document, combining a single
+                docHeader with one or more members of the model.resourceLike class. Multiple DOC
+                elements may be combined to form a docCorpus element.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="docHeader"/>
+        <xs:element maxOccurs="unbounded" ref="model.resourceLike"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="att.global.attributes"/>
+      <xs:attributeGroup ref="att.typed.attributes"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
