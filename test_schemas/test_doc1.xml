@@ -20,7 +20,7 @@
     </docHeader>
     <text>
         <front>
-            <q type="epigraph" rend="italics centered">This is an epigraph which precedes the main body of the text.</q>
+            <q type="written">This is an epigraph which precedes the main body of the text.</q>
         </front>
         <body>
             <div type="chapter">
