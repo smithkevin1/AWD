@@ -12,8 +12,9 @@
                 <p></p>
             </reflStmt>
             <peerReview>
+                <note>optional note #1</note>
                 <reviewer xml:id="WW">Reviewer_name <note>optional note on reviewer name</note></reviewer>
-                
+                <note>optional note #2</note>
             </peerReview>
         </docDesc>
     </docHeader>
@@ -24,7 +25,7 @@
         <body>
             <div type="chapter">
                 <div type="section">
-                    <p>Text goes here for structural 
+                    <p>Text goes here <anchor type="link" xml:id="stuff"  /> for structural 
                         <cit><q>This is a quote with a bibliographic citation attached.</q><bibl>(Smith, 2018)</bibl></cit>purposesssssssssssssss.</p>
                     <p></p>
                 </div>

@@ -178,6 +178,7 @@
         <choice>
             <ref name="model.milestoneLike"/>
             <ref name="model.noteLike"/>
+            <!--<ref name="figure"/> hold off on figure for now-->
         </choice>
     </define>
     <define name="model.common">
@@ -238,7 +239,9 @@
         </choice>
     </define>
     <define name="model.milestoneLike">
-        <notAllowed/>
+        <choice>
+            <ref name="anchor"/>
+        </choice>
     </define>
     <define name="model.noteLike">
         <ref name="note"/>
@@ -260,7 +263,10 @@
     <define name="peerReview">
         <element name="peerReview">
             <zeroOrMore>
-                <ref name="model.respLike"/>
+                <choice>
+                    <ref name="model.respLike"/>
+                    <ref name="model.global"/>
+                </choice>
             </zeroOrMore>
         </element>
     </define>
@@ -289,152 +295,17 @@
         </element>
     </define>
 
-    <define name="text">
-        <element name="text">
-            <a:documentation>contains a single text of any kind, whether unitary or composite, for
-                example a poem or drama, a collection of essays, a novel, a dictionary, or a corpus
-                sample. </a:documentation>
-            <group>
-
-                <zeroOrMore>
-                    <ref name="model.global"/>
-                </zeroOrMore>
-
-                <optional>
-                    <group>
-                        <ref name="front"/>
-
-                        <zeroOrMore>
-                            <ref name="model.global"/>
-                        </zeroOrMore>
-
-                    </group>
-                </optional>
-
-                <choice>
-                    <ref name="body"/>
-
-                </choice>
-
-                <zeroOrMore>
-                    <ref name="model.global"/>
-                </zeroOrMore>
-
-                <optional>
-                    <group>
-                        <ref name="back"/>
-
-                        <zeroOrMore>
-                            <ref name="model.global"/>
-                        </zeroOrMore>
-
-                    </group>
-                </optional>
-
-            </group>
+    <define name="anchor">
+        <element name="anchor">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(anchor
+                point) attaches an identifier to a point within a text, whether or not it
+                corresponds with a textual element. Used for arbitrary milestones.</a:documentation>
+            <empty/>
             <ref name="att.global.attributes"/>
             <ref name="att.typed.attributes"/>
             <empty/>
         </element>
     </define>
-
-
-    <!-- HEADER STUFF -->
-    <define name="docHeader">
-        <element name="docHeader">
-            <group>
-                <interleave>
-                    <ref name="docDesc"/>
-                    <zeroOrMore>
-                        <ref name="model.global"/>
-                    </zeroOrMore>
-                </interleave>
-            </group>
-            <ref name="att.global.attributes"/>
-            <ref name="att.typed.attributes"/>
-            <empty/>
-        </element>
-    </define>
-
-    <define name="docDesc">
-        <element name="docDesc">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(file
-                description) contains a full bibliographic description of an electronic file. [2.2.
-                The File Description 2.1.1. The TEI Header and Its Components]</a:documentation>
-            <group>
-                <ref name="titleStmt"/>
-                <zeroOrMore>
-                    <ref name="reflStmt"/>
-                    <ref name="peerReview"/>
-                </zeroOrMore>
-            </group>
-            <ref name="att.global.attributes"/>
-            <empty/>
-        </element>
-    </define>
-
-    <define name="titleStmt">
-        <element name="titleStmt">
-            <a:documentation>(title statement) groups information about the title of a document and
-                those responsible for its content.</a:documentation>
-            <group>
-                <oneOrMore>
-                    <ref name="docTitle"/>
-                    <ref name="model.respLike"/>
-                </oneOrMore>
-            </group>
-            <zeroOrMore>
-                <ref name="model.global"/>
-            </zeroOrMore>
-            <ref name="att.global.attributes"/>
-            <empty/>
-        </element>
-    </define>
-
-    <define name="docAuthor">
-        <element name="docAuthor">
-            <a:documentation>Contains the name(s) of an author, personal or corporate, of the
-                current document.</a:documentation>
-            <text/>
-            <zeroOrMore>
-                <ref name="model.global"/>
-            </zeroOrMore>
-            <ref name="att.global.attributes"/>
-            <ref name="att.canonical.attributes"/>
-            <empty/>
-        </element>
-    </define>
-
-    <define name="reviewer">
-        <element name="reviewer">
-            <a:documentation>Contains the name (and optional note) of a reviewer of the
-                text</a:documentation>
-            <text/>
-            <zeroOrMore>
-                <ref name="model.global"/>
-            </zeroOrMore>
-            <ref name="att.global.attributes"/>
-            <ref name="att.typed.attributes"/>
-            <empty/>
-            <empty/>
-        </element>
-    </define>
-
-    <define name="reflStmt">
-        <element name="reflStmt">
-            <a:documentation> This is a placeholder element for pertinent framing and contextual
-                information about a document. This statement will follow the titleStmt in the
-                docDesc.</a:documentation>
-            <choice>
-                <ref name="model.divPart"/>
-            </choice>
-            <ref name="att.global.attributes"/>
-            <ref name="att.typed.attributes"/>
-
-            <empty/>
-        </element>
-    </define>
-    <!-- END HEADER -->
     <define name="seg">
         <element name="seg">
             <zeroOrMore>
@@ -442,6 +313,25 @@
             </zeroOrMore>
         </element>
     </define>
+<!--    <define name="figure">
+        <element name="figure">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">groups elements representing or containing graphic information such as an illustration, formula, or figure. [14.4. Specific Elements for Graphic Images]</a:documentation>
+            <zeroOrMore>
+                <choice>
+                    <ref name="model.headLike"/>
+                    <ref name="model.common"/>
+                    <ref name="figDesc"/>
+                    <ref name="model.graphicLike"/>
+                    <ref name="model.global"/>
+                    <ref name="model.divBottom"/>
+                </choice>
+            </zeroOrMore>
+            <ref name="att.global.attributes"/>
+            <ref name="att.placement.attributes"/>
+            <ref name="att.typed.attributes"/>
+            <empty/>
+        </element>
+    </define>-->
     <define name="bibl">
         <element name="bibl">
             <zeroOrMore>
@@ -687,6 +577,150 @@
         </element>
 
     </define>
+    <!-- HEADER STUFF -->
+    <define name="docHeader">
+        <element name="docHeader">
+            <group>
+                <interleave>
+                    <ref name="docDesc"/>
+                    <zeroOrMore>
+                        <ref name="model.global"/>
+                    </zeroOrMore>
+                </interleave>
+            </group>
+            <ref name="att.global.attributes"/>
+            <ref name="att.typed.attributes"/>
+            <empty/>
+        </element>
+    </define>
+
+    <define name="docDesc">
+        <element name="docDesc">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(file
+                description) contains a full bibliographic description of an electronic file. [2.2.
+                The File Description 2.1.1. The TEI Header and Its Components]</a:documentation>
+            <group>
+                <ref name="titleStmt"/>
+                <zeroOrMore>
+                    <ref name="reflStmt"/>
+                    <ref name="peerReview"/>
+                </zeroOrMore>
+            </group>
+            <ref name="att.global.attributes"/>
+            <empty/>
+        </element>
+    </define>
+
+    <define name="titleStmt">
+        <element name="titleStmt">
+            <a:documentation>(title statement) groups information about the title of a document and
+                those responsible for its content.</a:documentation>
+            <group>
+                <oneOrMore>
+                    <ref name="docTitle"/>
+                    <ref name="model.respLike"/>
+                </oneOrMore>
+            </group>
+            <zeroOrMore>
+                <ref name="model.global"/>
+            </zeroOrMore>
+            <ref name="att.global.attributes"/>
+            <empty/>
+        </element>
+    </define>
+
+    <define name="docAuthor">
+        <element name="docAuthor">
+            <a:documentation>Contains the name(s) of an author, personal or corporate, of the
+                current document.</a:documentation>
+            <text/>
+            <zeroOrMore>
+                <ref name="model.global"/>
+            </zeroOrMore>
+            <ref name="att.global.attributes"/>
+            <ref name="att.canonical.attributes"/>
+            <empty/>
+        </element>
+    </define>
+
+    <define name="reviewer">
+        <element name="reviewer">
+            <a:documentation>Contains the name (and optional note) of a reviewer of the
+                text</a:documentation>
+            <text/>
+            <zeroOrMore>
+                <ref name="model.global"/>
+            </zeroOrMore>
+            <ref name="att.global.attributes"/>
+            <ref name="att.typed.attributes"/>
+            <empty/>
+            <empty/>
+        </element>
+    </define>
+
+    <define name="reflStmt">
+        <element name="reflStmt">
+            <a:documentation> This is a placeholder element for pertinent framing and contextual
+                information about a document. This statement will follow the titleStmt in the
+                docDesc.</a:documentation>
+            <choice>
+                <ref name="model.divPart"/>
+            </choice>
+            <ref name="att.global.attributes"/>
+            <ref name="att.typed.attributes"/>
+
+            <empty/>
+        </element>
+    </define>
+    <!-- END HEADER -->
+    <define name="text">
+        <element name="text">
+            <a:documentation>contains a single text of any kind, whether unitary or composite, for
+                example a poem or drama, a collection of essays, a novel, a dictionary, or a corpus
+                sample. </a:documentation>
+            <group>
+
+                <zeroOrMore>
+                    <ref name="model.global"/>
+                </zeroOrMore>
+
+                <optional>
+                    <group>
+                        <ref name="front"/>
+
+                        <zeroOrMore>
+                            <ref name="model.global"/>
+                        </zeroOrMore>
+
+                    </group>
+                </optional>
+
+                <choice>
+                    <ref name="body"/>
+
+                </choice>
+
+                <zeroOrMore>
+                    <ref name="model.global"/>
+                </zeroOrMore>
+
+                <optional>
+                    <group>
+                        <ref name="back"/>
+
+                        <zeroOrMore>
+                            <ref name="model.global"/>
+                        </zeroOrMore>
+
+                    </group>
+                </optional>
+
+            </group>
+            <ref name="att.global.attributes"/>
+            <ref name="att.typed.attributes"/>
+            <empty/>
+        </element>
+    </define>
     <define name="DOC">
         <element name="DOC">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -704,7 +738,6 @@
             <empty/>
         </element>
     </define>
-
 
     <start>
         <choice>
