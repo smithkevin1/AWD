@@ -6,10 +6,12 @@
     </meta>
     <projectTree name="AWD_schemas.xpr">
         <file name="development_schmea.rng"/>
+        <file name="normal_format.xsl"/>
         <file name="tei_bare.rng"/>
         <file name="tei_jtei.rng"/>
         <file name="tei_lite.rng"/>
         <file name="test_doc1.xml"/>
+        <file name="test_doc2.xml"/>
         <file name="useful_templates.xsl"/>
     </projectTree>
 </project>
