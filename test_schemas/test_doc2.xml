@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <DOC>
-    <docHeader>
-        <title> Writing Project 1: Analyzing a Scene </title>
-        <author xml:id="kgs"> Kevin G. Smith </author>
-    </docHeader>
+    <docHead>
+        <title>Writing Project 1: Analyzing a Scene</title>
+        <author xml:id="kgs">Kevin G. Smith</author>
+        <version n="1">Date of intial draft</version>
+        <version n="2">Date of revision</version>
+    </docHead>
     <body>
         <div>
             <p>This is an example paragraph. Here is some latin: Lorem ipsum dolor sit amet,
@@ -31,8 +33,14 @@
                 pleasure?</p>
         </div>
     </body>
-    <peerReview xml:id="s01">
-        <report>
+    <docFoot>
+        <listBibl>
+          <bibl>Bibliographic entry</bibl>  
+        </listBibl>
+    </docFoot>
+    <docReview>
+        <reviewer type="peer" xml:id="s01">Name of Reviewer</reviewer>
+        <report type="peer" resp="#s01">
             <p>This is a peer review report: At vero eos et accusamus et iusto odio dignissimos
                 ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
                 et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt
@@ -45,7 +53,9 @@
                 recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis
                 voluptatibus maiores alias consequatur aut perferendis doloribus asperiores
                 repellat. </p>
-
         </report>
-    </peerReview>
+        <report type="instructor" resp="#kgs">
+            <p>This is an instructor end note, categorized as a particular type of report in the docReview section of the document.</p>
+        </report>
+    </docReview>
 </DOC>
