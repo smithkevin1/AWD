@@ -8,7 +8,7 @@
         <version n="2">Date of revision</version>
     </docHead>
     <body>
-        <div>
+        <div type="section">
             <p>This is an example paragraph. Here is some latin: Lorem ipsum dolor sit amet,
                 consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
                 magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -35,7 +35,8 @@
     </body>
     <docFoot>
         <listBibl>
-          <bibl>Bibliographic entry</bibl>  
+            <bibl>Smith, Kevin. "Test_doc2.xml." Documentation for AWD3302. Web.</bibl>  
+            <bibl>McGann, Jerome. Radiant Textuality. Parlor Press, 1994. Print.</bibl>
         </listBibl>
     </docFoot>
     <docReview>
